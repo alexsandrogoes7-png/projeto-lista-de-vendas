@@ -1,7 +1,7 @@
-function dizerOla(){
-    return "123"
-}
+import { importVenda } from "./utils/import-file.js";
 
-console.log(dizerOla())
-const ola =dizerOla()
-console.log(ola)
+(async()=>{
+    const vendas = await importVenda()
+    console.log(vendas.length)
+    console.log(vendas[0]?.cliente.email)
+})()

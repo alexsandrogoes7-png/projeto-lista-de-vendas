@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function dizerOla() {
-    return "123";
-}
-console.log(dizerOla());
-const ola = dizerOla();
-console.log(ola);
+import vendas from "./vendas_200.json";
+const vendasTipadas = vendas;
+console.log(vendasTipadas);
+const vendasPagas = vendas.filter(venda => venda.pagamento.status === "APROVADO");
+console.log(vendasPagas.length);
 //# sourceMappingURL=index.js.map
