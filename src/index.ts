@@ -5,3 +5,4 @@ import { importVenda } from "./utils/import-file.js";
     console.log(vendas.length)
     console.log(vendas[0]?.cliente.email)
 })()
+
