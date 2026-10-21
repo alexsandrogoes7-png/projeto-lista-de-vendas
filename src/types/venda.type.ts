@@ -1,6 +1,7 @@
 import type { ICliente } from "./cliente.js";
 import type { IEnderecoEntrega } from "./endereco_entrega.js";
 import type { IItens } from "./itens/itens.js";
+
 import type { IPagamentos } from "./pagamento.js";
 
 type StatusOption = "PAGO" | "PENDENTE" | "CANCELADO"
