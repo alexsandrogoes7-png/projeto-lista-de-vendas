@@ -45,8 +45,20 @@ console.log(statusComoArray)
 //Nível 1 : Desafio 4
 const vendasPorMetodo = listaVendas.map(venda=>venda.pagamento.metodo)
 
+const contadorMetodos:(string|number)[]={}
+
+//forEach percorre cada elemento do Array
+vendasPorMetodo.forEach((metodo:string|number) =>{
+    if(contadorMetodos[metodo]===undefined){
+        contadorMetodos[metodo]=1
+    }else{
+        contadorMetodos[metodo]+=1
+    }
+
+})
+
 //COMO SEPARAR AS VENDAS?
-console.log(vendasPorMetodo)
+console.log(contadorMetodos)
 
 
   
