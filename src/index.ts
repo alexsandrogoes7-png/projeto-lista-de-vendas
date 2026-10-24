@@ -43,22 +43,40 @@ const statusComoArray = [...statusSemRepeticao]
 console.log(statusComoArray)
 
 //Nível 1 : Desafio 4
-const vendasPorMetodo = listaVendas.map(venda=>venda.pagamento.metodo)
 
-const contadorMetodos:(string|number)[]={}
+// const vendasPorMetodo = listaVendas.map(metodo=>metodo.pagamento.metodo)
 
-//forEach percorre cada elemento do Array
-vendasPorMetodo.forEach((metodo:string|number) =>{
-    if(contadorMetodos[metodo]===undefined){
-        contadorMetodos[metodo]=1
-    }else{
-        contadorMetodos[metodo]+=1
-    }
+//Maneira de manipular uma lista de vendas de forma escalavel para comportar novos métodos de pagamento que forem adicionados.
+const resumoDeVendasPorMetodos = listaVendas.reduce((acc,current)=>({...acc,[current.pagamento.metodo]:(acc[current.pagamento.metodo]||0)+1}),{} as Record<string,number>)
 
-})
+//Maneira de manipular lista de vendas utilizando a tipagem em hardcoded para quando precisamos ter previsibilidade de um campo que é enum ou opção
+// type TipoMetodo = "BOLETO" | "PIX" | "CARTAO_CREDITO"
+// const vendasPorMetodo = listaVendas.map(venda=>venda.pagamento.metodo as TipoMetodo)
+// const resumoDeVendasPorMetodos:Record<TipoMetodo,number> = { BOLETO: 0, PIX: 0, CARTAO_CREDITO: 0}
+
+// //forEach percorre cada elemento do Array
+// vendasPorMetodo.forEach((metodo:TipoMetodo) =>{
+//     const metodoEcontrado = resumoDeVendasPorMetodos[metodo]
+//     if(metodo === "BOLETO"){
+//        return resumoDeVendasPorMetodos[metodo]+=1 
+//     }
+//     if(metodo === "CARTAO_CREDITO"){
+//         return resumoDeVendasPorMetodos[metodo]+=1
+//     }
+//     if(metodo === "PIX"){
+//         return resumoDeVendasPorMetodos[metodo]+=1
+//     }
+    // resumoDeVendasPorMetodos[metodo]=resumoDeVendasPorMetodos[metodo]?resumoDeVendasPorMetodos[metodo]+1:1
+
+    // if(!resumoDeVendasPorMetodos[metodo]){
+    //     resumoDeVendasPorMetodos[metodo]=1
+    // }else{
+    //     resumoDeVendasPorMetodos[metodo]+=1
+    // }
+// })
 
 //COMO SEPARAR AS VENDAS?
-console.log(contadorMetodos)
+console.log(resumoDeVendasPorMetodos)
 
 
   

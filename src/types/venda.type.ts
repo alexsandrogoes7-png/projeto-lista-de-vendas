@@ -4,15 +4,12 @@ import type { IItens } from "./itens/itens.js";
 
 import type { IPagamentos } from "./pagamento.js";
 
-// type StatusOption = "PAGO" | "PENDENTE" | "CANCELADO"
-// StatusOption;
-//Perguntar Sábado
-
+type StatusOption = "PAGO" | "PENDENTE" | "CANCELADO"
 
 export interface IVenda{
     id_venda: number;
     data_venda: string;
-    status: string;
+    status: StatusOption;
     valor_total: number;
     cliente:ICliente
     endereco_entrega:IEnderecoEntrega
