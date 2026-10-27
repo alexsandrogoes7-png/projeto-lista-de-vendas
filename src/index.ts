@@ -78,5 +78,6 @@ const resumoDeVendasPorMetodos = listaVendas.reduce((acc,current)=>({...acc,[cur
 //COMO SEPARAR AS VENDAS?
 console.log(resumoDeVendasPorMetodos)
 
+//Nível 2 : Desafio 1
 
   
