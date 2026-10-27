@@ -88,11 +88,22 @@ console.log()
 console.log("Nível 2 : Desafio 1")
 
 //valor_total_vendido
+//reduce percorre um array e reduz todos os seus elementos a um único valor final.
+//Ele executa uma função de retorno (callback) para cada item do array, acumulando um resultado a cada passo.
+ 
+// Principais parâmetros:
+
+// • Acumulador (acc): Guarda o resultado que está sendo construído ou transformado a cada volta.
+// • Elemento atual (curr)(chamado de numero do exercício): O item do array que está sendo analisado no momento.
+// • Valor inicial (initialValue)(usamos o 0 no exercício como valor inicial): O ponto de partida do acumulador. (Atenção: se você não informar o valor inicial, o TypeScript/JavaScript usará o primeiro item do array como o acumulador inicial).
 const valorTotalVendido = listaVendas.filter(venda=>venda.status !== "CANCELADO").reduce((acc,numero)=>
 (acc + (numero.valor_total))
 ,0)
 
 console.log(`Total vendido é R$: ${valorTotalVendido.toFixed(2)}`)
 
-
+//qtd_total_itens_vendidos
+const quantidadeItensVendidos = listaVendas.filter(venda=>venda.status !== "CANCELADO").reduce((acc,current)=>(acc+(current.itens.quantidade))
+,0)
   
+console.log(quantidadeItensVendidos)
