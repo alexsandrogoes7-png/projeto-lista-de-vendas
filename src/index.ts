@@ -103,7 +103,8 @@ const valorTotalVendido = listaVendas.filter(venda=>venda.status !== "CANCELADO"
 console.log(`Total vendido é R$: ${valorTotalVendido.toFixed(2)}`)
 
 //qtd_total_itens_vendidos
-const quantidadeItensVendidos = listaVendas.filter(venda=>venda.status !== "CANCELADO").reduce((acc,current)=>(acc+(current.itens.quantidade))
+const quantidadeItensVendidos = listaVendas.filter(venda=>venda.status !== "CANCELADO").reduce((acc,current)=>(acc+(current.itens.reduce((geral,atual)=>(geral+(atual.quantidade)),0)
+))
 ,0)
   
 console.log(quantidadeItensVendidos)
