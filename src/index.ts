@@ -102,9 +102,21 @@ const valorTotalVendido = listaVendas.filter(venda=>venda.status !== "CANCELADO"
 
 console.log(`Total vendido é R$: ${valorTotalVendido.toFixed(2)}`)
 
-//qtd_total_itens_vendidos
+
+
+// qtd_total_itens_vendidos
 const quantidadeItensVendidos = listaVendas.filter(venda=>venda.status !== "CANCELADO").reduce((acc,current)=>(acc+(current.itens.reduce((geral,atual)=>(geral+(atual.quantidade)),0)
 ))
 ,0)
-  
-console.log(quantidadeItensVendidos)
+
+// const quantidadeItensVendidos =  listaVendas.filter(venda =>venda.status !== "CANCELADO").flatMap(venda=>venda.itens.map(item=>item.quantidade)).reduce((acc,current)=>(acc+(current)),0)
+
+console.log(`A quantidade de itens vendidos é: ${quantidadeItensVendidos}`)
+
+//ticket_medio
+const vendasValidas =listaVendas.filter(venda=>venda.status !== "CANCELADO")
+
+const ticketMedio = valorTotalVendido/vendasValidas.length
+
+console.log(`O valor do ticket médio é: ${ticketMedio.toFixed(2)}`)
+
