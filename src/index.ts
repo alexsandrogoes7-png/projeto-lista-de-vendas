@@ -109,8 +109,6 @@ const quantidadeItensVendidos = listaVendas.filter(venda=>venda.status !== "CANC
 ))
 ,0)
 
-// const quantidadeItensVendidos =  listaVendas.filter(venda =>venda.status !== "CANCELADO").flatMap(venda=>venda.itens.map(item=>item.quantidade)).reduce((acc,current)=>(acc+(current)),0)
-
 console.log(`A quantidade de itens vendidos é: ${quantidadeItensVendidos}`)
 
 //ticket_medio
@@ -120,3 +118,15 @@ const ticketMedio = valorTotalVendido/vendasValidas.length
 
 console.log(`O valor do ticket médio é: ${ticketMedio.toFixed(2)}`)
 
+console.log()
+console.log("Nível 2: Desafio 2")
+
+//Método sort() organiza os elementos de um array.
+// https://www.youtube.com/watch?v=Bp1s5VEp9RU  
+const produtosRepetidos = listaVendas.flatMap(venda=>venda.itens).sort((a,b)=>b.preco_unitario-a.preco_unitario).map(produto=>produto.nome)
+
+const produtosUnicos = new Set(produtosRepetidos)
+
+const produtos_catalogo = [...produtosUnicos]
+
+console.log(produtos_catalogo)

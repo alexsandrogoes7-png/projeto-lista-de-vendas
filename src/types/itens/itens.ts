@@ -6,4 +6,4 @@ export interface IItens{
     quantidade: number;
     preco_unitario: number;
     categoria:ICategoria
-}
+}[]

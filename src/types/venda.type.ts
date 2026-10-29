@@ -14,5 +14,5 @@ export interface IVenda{
     cliente:ICliente
     endereco_entrega:IEnderecoEntrega
     pagamento:IPagamentos
-    itens:IItens[]
+    itens:IItens
 }
