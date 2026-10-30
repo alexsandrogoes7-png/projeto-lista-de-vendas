@@ -130,3 +130,16 @@ const produtosUnicos = new Set(produtosRepetidos)
 const produtos_catalogo = [...produtosUnicos]
 
 console.log(produtos_catalogo)
+
+console.log()
+console.log("Nível 3: Desafio 1")
+//resumo_por_categoria
+
+//nome_categoria
+const nomeCategoriaRepetidos = listaVendas.flatMap(categoria=>categoria.itens.map(venda=>venda.categoria.nome))
+const nome_categoria = new Set(nomeCategoriaRepetidos)
+
+
+// const resumo_por_categoria = 
+
+// console.log(resumo_por_categoria)

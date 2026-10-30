@@ -4,6 +4,8 @@ import type { IItens } from "./itens/itens.js";
 
 import type { IPagamentos } from "./pagamento.js";
 
+import type { ICategoria } from "./itens/categoria.js";
+
 type StatusOption = "PAGO" | "PENDENTE" | "CANCELADO"
 
 export interface IVenda{
@@ -14,5 +16,11 @@ export interface IVenda{
     cliente:ICliente
     endereco_entrega:IEnderecoEntrega
     pagamento:IPagamentos
-    itens:IItens
+    itens:{
+            id_produto: number;
+            nome: string;
+            quantidade: number;
+            preco_unitario: number;
+            categoria:ICategoria
+    }[]
 }
