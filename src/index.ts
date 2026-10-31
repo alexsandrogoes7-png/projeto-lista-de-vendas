@@ -117,7 +117,7 @@ const vendasValidas =listaVendas.filter(venda=>venda.status !== "CANCELADO")
 
 const ticketMedio = valorTotalVendido/vendasValidas.length
 
-console.log(`O valor do ticket médio é: ${ticketMedio.toFixed(2)}`)
+console.log(`O valor do ticket médio é: ${ticketMedio.toLocaleString("pt-BR",{currency:"BRL",style:"currency"})}`)
 
 console.log()
 console.log("Nível 2: Desafio 2")
@@ -138,7 +138,7 @@ console.log("Nível 3: Desafio 1")
 
  const todos =  listaVendas.filter(venda=>venda.status !== "CANCELADO").flatMap(venda=>venda.itens)
 
-console.log(todos)
+// console.log(todos)
 
 type IResumoCategoria = {
     nome_categoria:string
