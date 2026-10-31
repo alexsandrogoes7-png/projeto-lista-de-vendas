@@ -1,3 +1,4 @@
+import type { ICategoria } from "./types/itens/categoria.js";
 import { importVenda } from "./utils/import-file.js";
 
 // (async()=>{
@@ -138,3 +139,49 @@ console.log("Nível 3: Desafio 1")
  const todos =  listaVendas.filter(venda=>venda.status !== "CANCELADO").flatMap(venda=>venda.itens)
 
 console.log(todos)
+
+type IResumoCategoria = {
+    nome_categoria:string
+    valor_total_vendido:number
+    qtd_total_itens:number
+}
+
+const categoriaSemDuplicatas = [] as ICategoria[]
+
+const resumoPorCategorias = [] as IResumoCategoria[]
+
+listaVendas.forEach(venda=>venda.itens.forEach(item=>{ 
+    const categoriaJaExistente = categoriaSemDuplicatas.some(categoria=>categoria.id_categoria === item.categoria.id_categoria) 
+    if(!categoriaJaExistente){
+        categoriaSemDuplicatas.push(item.categoria)
+
+        const resumoDeCategoriaEncontrado = resumoPorCategorias.find(resumo=>resumo.nome_categoria === item.categoria.nome)
+
+        if(resumoDeCategoriaEncontrado && venda.status !== "CANCELADO"){
+            resumoDeCategoriaEncontrado.qtd_total_itens+=item.quantidade
+            resumoDeCategoriaEncontrado.valor_total_vendido+=item.quantidade*item.preco_unitario
+        }
+        else{
+            resumoPorCategorias.push({
+                nome_categoria:item.categoria.nome,
+                qtd_total_itens:item.quantidade,
+                valor_total_vendido:item.quantidade*item.preco_unitario
+
+            })
+        }
+    }
+    // JSON.stringify(item.categoria)
+
+}))
+
+// const categoriaSemDuplicatas = [...new Set(categorias)].map(jsonStr=>JSON.parse(jsonStr))
+
+// console.log(categoriaSemDuplicatas)
+
+console.log(categoriaSemDuplicatas)
+console.log(resumoPorCategorias.sort((a,b)=>a.valor_total_vendido>b.valor_total_vendido ?-1:1).map(categoria=>({...categoria,valor_total_vendido_real:categoria.valor_total_vendido.toLocaleString("pt-BR",{currency:"BRL",style:"currency"})})))
+
+
+
+
+

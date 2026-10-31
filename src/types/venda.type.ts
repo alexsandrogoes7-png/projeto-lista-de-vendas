@@ -16,11 +16,5 @@ export interface IVenda{
     cliente:ICliente
     endereco_entrega:IEnderecoEntrega
     pagamento:IPagamentos
-    itens:{
-            id_produto: number;
-            nome: string;
-            quantidade: number;
-            preco_unitario: number;
-            categoria:ICategoria
-    }[]
+    itens:IItens[]
 }
