@@ -135,11 +135,6 @@ console.log()
 console.log("Nível 3: Desafio 1")
 //resumo_por_categoria
 
-//nome_categoria
-const nomeCategoriaRepetidos = listaVendas.flatMap(categoria=>categoria.itens.map(venda=>venda.categoria.nome))
-const nome_categoria = new Set(nomeCategoriaRepetidos)
+ const todos =  listaVendas.filter(venda=>venda.status !== "CANCELADO").flatMap(venda=>venda.itens)
 
-
-// const resumo_por_categoria = 
-
-// console.log(resumo_por_categoria)
+console.log(todos)
