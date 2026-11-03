@@ -117,6 +117,7 @@ const vendasValidas =listaVendas.filter(venda=>venda.status !== "CANCELADO")
 
 const ticketMedio = valorTotalVendido/vendasValidas.length
 
+
 console.log(`O valor do ticket médio é: ${ticketMedio.toLocaleString("pt-BR",{currency:"BRL",style:"currency"})}`)
 
 console.log()
