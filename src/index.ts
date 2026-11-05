@@ -150,11 +150,14 @@ const categoriaSemDuplicatas = [] as ICategoria[]
 
 const resumoPorCategorias = [] as IResumoCategoria[]
 
+
+//O método some() serve para verificar se pelo menos um dos elementos de um array passa em um teste implementado por uma função de callback
 listaVendas.forEach(venda=>venda.itens.forEach(item=>{ 
     const categoriaJaExistente = categoriaSemDuplicatas.some(categoria=>categoria.id_categoria === item.categoria.id_categoria) 
     if(!categoriaJaExistente){
         categoriaSemDuplicatas.push(item.categoria)
 
+        //O termo find() serve para encontrar e retornar um item específico dentro de um conjunto de dados, com base em uma condição definida por você.
         const resumoDeCategoriaEncontrado = resumoPorCategorias.find(resumo=>resumo.nome_categoria === item.categoria.nome)
 
         if(resumoDeCategoriaEncontrado && venda.status !== "CANCELADO"){
@@ -181,7 +184,43 @@ listaVendas.forEach(venda=>venda.itens.forEach(item=>{
 console.log(categoriaSemDuplicatas)
 console.log(resumoPorCategorias.sort((a,b)=>a.valor_total_vendido>b.valor_total_vendido ?-1:1).map(categoria=>({...categoria,valor_total_vendido_real:categoria.valor_total_vendido.toLocaleString("pt-BR",{currency:"BRL",style:"currency"})})))
 
+console.log("Nível 3: Desafio 2")
+//resumo_por_cidade
 
 
+type IResumoCidade  = {
+    nome_cidade:string
+    valor_total_vendido:number
+    qtd_total_itens:number
+    produto_mais_vendido:{
+        nome_produto:string
+        valor_total_gerado:number
+        qtd_total_vendida:number
+    }
+}
+
+const resumoPorCidade = [] as IResumoCidade[]
+
+listaVendas.forEach(venda=>{
 
 
+    const cidadeEncontrada = resumoPorCidade.find(cidade=>cidade.nome_cidade === venda.endereco_entrega.cidade)
+
+    if(venda.status === "CANCELADO"){
+        return
+    }
+
+    if(cidadeEncontrada){
+        cidadeEncontrada.valor_total_vendido += venda.valor_total
+        cidadeEncontrada.qtd_total_itens += venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0)
+    }else{
+        resumoPorCidade.push({
+            nome_cidade: venda.endereco_entrega.cidade,
+            valor_total_vendido:venda.valor_total,
+            qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
+        })
+    }
+    
+})
+
+console.log(resumoPorCidade)
