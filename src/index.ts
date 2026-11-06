@@ -187,7 +187,7 @@ console.log(resumoPorCategorias.sort((a,b)=>a.valor_total_vendido>b.valor_total_
 console.log("Nível 3: Desafio 2")
 //resumo_por_cidade
 
-
+//cria interface
 type IResumoCidade  = {
     nome_cidade:string
     valor_total_vendido:number
@@ -199,25 +199,36 @@ type IResumoCidade  = {
     }
 }
 
+//coloca interface na constante como array
 const resumoPorCidade = [] as IResumoCidade[]
 
+//forEach para percorrer a lista de vendas
 listaVendas.forEach(venda=>{
 
-
+    //encontrar os nomes das cidades
     const cidadeEncontrada = resumoPorCidade.find(cidade=>cidade.nome_cidade === venda.endereco_entrega.cidade)
 
+    //retira os cancelados
     if(venda.status === "CANCELADO"){
         return
     }
 
+    //atualiza nosso array de objetos
     if(cidadeEncontrada){
         cidadeEncontrada.valor_total_vendido += venda.valor_total
         cidadeEncontrada.qtd_total_itens += venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0)
+     //joga os objetos para o nosso array   
     }else{
         resumoPorCidade.push({
             nome_cidade: venda.endereco_entrega.cidade,
             valor_total_vendido:venda.valor_total,
             qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
+            produto_mais_vendido:{
+                // nome_produto:,
+                // valor_total_gerado:,
+                // qtd_total_vendida:,
+                
+            }
         })
     }
     
