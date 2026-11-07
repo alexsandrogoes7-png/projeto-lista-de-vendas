@@ -205,13 +205,15 @@ const resumoPorCidade = [] as IResumoCidade[]
 //forEach para percorrer a lista de vendas
 listaVendas.forEach(venda=>{
 
-    //encontrar os nomes das cidades
-    const cidadeEncontrada = resumoPorCidade.find(cidade=>cidade.nome_cidade === venda.endereco_entrega.cidade)
-
     //retira os cancelados
     if(venda.status === "CANCELADO"){
         return
     }
+
+    //encontrar os nomes das cidades
+    const cidadeEncontrada = resumoPorCidade.find(cidade=>cidade.nome_cidade === venda.endereco_entrega.cidade)
+
+
 
     //atualiza nosso array de objetos
     if(cidadeEncontrada){
@@ -224,9 +226,9 @@ listaVendas.forEach(venda=>{
             valor_total_vendido:venda.valor_total,
             qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
             produto_mais_vendido:{
-                // nome_produto:,
-                // valor_total_gerado:,
-                // qtd_total_vendida:,
+                nome_produto:venda.itens.map(item=>item.nome),
+                valor_total_gerado:0,
+                qtd_total_vendida:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
                 
             }
         })
