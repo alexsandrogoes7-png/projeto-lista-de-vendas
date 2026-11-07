@@ -190,8 +190,6 @@ console.log("Nível 3: Desafio 2")
 //cria interface
 type IResumoCidade  = {
     nome_cidade:string
-    valor_total_vendido:number
-    qtd_total_itens:number
     produto_mais_vendido:{
         nome_produto:string
         valor_total_gerado:number
@@ -203,6 +201,9 @@ type IResumoCidade  = {
 const resumoPorCidade = [] as IResumoCidade[]
 
 //forEach para percorrer a lista de vendas
+
+type IProdutoPorCidade = Record<number, {qtd:number, vr_total:number}>
+const produtosVendidosPorCidade:Record<string, IProdutoPorCidade> ={} 
 listaVendas.forEach(venda=>{
 
     //retira os cancelados
@@ -210,29 +211,67 @@ listaVendas.forEach(venda=>{
         return
     }
 
-    //encontrar os nomes das cidades
-    const cidadeEncontrada = resumoPorCidade.find(cidade=>cidade.nome_cidade === venda.endereco_entrega.cidade)
+    for (const produto of venda.itens) {
+        // { "Itabuna":{ 203:{ qtd: 12, vr_total: 203 } }}
+        if (!produtosVendidosPorCidade[venda.endereco_entrega.cidade]) {
+            produtosVendidosPorCidade[venda.endereco_entrega.cidade] = {
+                [produto.id_produto]: {
+                    qtd: 0,
+                    vr_total: 0
+                }
+            }
+        }
 
+        // 2. Atualiza a quantidade acumulada do produto na respectiva cidade
+        const mapaCidade = produtosVendidosPorCidade[venda.endereco_entrega.cidade] as IProdutoPorCidade
+
+        if(!mapaCidade[produto.id_produto]){
+            mapaCidade[produto.id_produto] = {
+                qtd:0,
+                vr_total:0
+            }
+        }
+        
+        mapaCidade[produto.id_produto]!.qtd = (mapaCidade[produto.id_produto]?.qtd || 0) + produto.quantidade;
+
+        const totalDesseProduto = mapaCidade[produto.id_produto]?.vr_total || 0
+
+        // 3. Compara dinamicamente se este produto se tornou o mais vendido daquela cidade
+        const atualCampeao = resumoPorCidade.find(cidade => cidade.nome_cidade === venda.endereco_entrega.cidade)
+
+        if (!atualCampeao || (totalDesseProduto && totalDesseProduto > atualCampeao.produto_mais_vendido.qtd_total_vendida)) {
+            resumoPorCidade.push({
+                nome_cidade: venda.endereco_entrega.cidade,
+                produto_mais_vendido:{
+                    nome_produto:produto.nome,
+                    qtd_total_vendida:produto.quantidade,
+                    valor_total_gerado:produto.quantidade* produto.preco_unitario
+                },
+            })
+        }
+    }
 
 
     //atualiza nosso array de objetos
-    if(cidadeEncontrada){
-        cidadeEncontrada.valor_total_vendido += venda.valor_total
-        cidadeEncontrada.qtd_total_itens += venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0)
+    // if(cidadeEncontrada){
+    //     cidadeEncontrada.valor_total_vendido += venda.valor_total
+    //     cidadeEncontrada.qtd_total_itens += venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0)
      //joga os objetos para o nosso array   
-    }else{
-        resumoPorCidade.push({
-            nome_cidade: venda.endereco_entrega.cidade,
-            valor_total_vendido:venda.valor_total,
-            qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
-            produto_mais_vendido:{
-                nome_produto:venda.itens.map(item=>item.nome),
-                valor_total_gerado:0,
-                qtd_total_vendida:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
+    // }else{
+        // percorrer os produtos das vendas e somar a qtd_total e valor total vendido 
+        // resumoPorCidade.push({
+        //     nome_cidade: venda.endereco_entrega.cidade,
+        //     valor_total_vendido:venda.valor_total,
+        //     qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
+        //     produto_mais_vendido:{
+        //         // nome_produto:venda.itens.map(item=>item.nome),
+        //         nome_produto:"",
+        //         valor_total_gerado:0,
+        //         qtd_total_vendida:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
                 
-            }
-        })
-    }
+        //     }
+        // })
+    // }
     
 })
 
