@@ -203,6 +203,8 @@ const resumoPorCidade = [] as IResumoCidade[]
 //forEach para percorrer a lista de vendas
 
 type IProdutoPorCidade = Record<number, {qtd:number, vr_total:number}>
+
+//Um objeto que usa o nome da cidade como chave e guarda os produtos daquela cidade.
 const produtosVendidosPorCidade:Record<string, IProdutoPorCidade> ={} 
 listaVendas.forEach(venda=>{
 
