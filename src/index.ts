@@ -241,6 +241,8 @@ listaVendas.forEach(venda=>{
         // 3. Compara dinamicamente se este produto se tornou o mais vendido daquela cidade
         const atualCampeao = resumoPorCidade.find(cidade => cidade.nome_cidade === venda.endereco_entrega.cidade)
 
+        //O !atualCampeao permite tratar o primeiro produto da cidade sem tentar compará-lo com um campeão que ainda não existe.
+     
         if (!atualCampeao || (totalDesseProduto && totalDesseProduto > atualCampeao.produto_mais_vendido.qtd_total_vendida)) {
             resumoPorCidade.push({
                 nome_cidade: venda.endereco_entrega.cidade,
@@ -278,3 +280,27 @@ listaVendas.forEach(venda=>{
 })
 
 console.log(resumoPorCidade)
+
+console.log()
+console.log("Nível 3:Desafio 2 - Entendendo")
+type ICidadeResumida = {
+    nome_cidade:string
+    produto_mais_vendido:{
+        nome_produto:string
+        valor_total_gerado:number   
+        qtd_total_vendida:number
+    }
+}
+
+//[]: cria um array vazio. //ICidadeResumida[]: informa que esse array deverá conter elementos desse tipo. //"as" : faz uma afirmação de tipo para o TypeScript.
+//estamos preparando um array para guardar os resumos das cidades.
+const cidade_resumida = [] as ICidadeResumida[]
+
+//IProduto_por_cidade: representa a organização dos produtos de uma cidade.
+//Record<number, ...>: usa o ID numérico do produto como chave.
+//Record é um tipo utilitário do TypeScript. Ele permite definir um objeto em que sabemos:
+// - Qual será o tipo das chaves.
+// - Qual será o tipo dos valores associados a essas chaves.
+type IProduto_por_cidade = Record<number,{qtd:number,valor_total:number}>
+
+const produto_campeao:Record<string,IProduto_por_cidade>={}
