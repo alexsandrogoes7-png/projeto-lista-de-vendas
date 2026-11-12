@@ -303,4 +303,17 @@ const cidade_resumida = [] as ICidadeResumida[]
 // - Qual será o tipo dos valores associados a essas chaves.
 type IProduto_por_cidade = Record<number,{qtd:number,valor_total:number}>
 
-const produto_campeao:Record<string,IProduto_por_cidade>={}
+const produtos_por_cidade:Record<string,IProduto_por_cidade>={}
+
+//forEach() percorre cada venda da lista. A cada repetição, a variável venda representa uma venda diferente.
+listaVendas.forEach(venda=>{
+    //Se a venda estiver cancelada, o return encerra a execução daquela chamada do forEach e passa para a próxima venda.
+    if (venda.status === "CANCELADO"){
+        return
+    }
+
+    //for...of percorre os produtos de cada venda.
+    for (const produto of venda.itens){
+
+    }
+})
