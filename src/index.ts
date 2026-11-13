@@ -314,6 +314,16 @@ listaVendas.forEach(venda=>{
 
     //for...of percorre os produtos de cada venda.
     for (const produto of venda.itens){
+        if(produtos_por_cidade[venda.endereco_entrega.cidade]){
+            produtos_por_cidade[venda.endereco_entrega.cidade] = {
+                [produto.id_produto]:{
+                    qtd:0,
+                    valor_total:0
+                }
+            }
+        }
+
+        
 
     }
 })
