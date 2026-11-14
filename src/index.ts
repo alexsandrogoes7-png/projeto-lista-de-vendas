@@ -314,7 +314,9 @@ listaVendas.forEach(venda=>{
 
     //for...of percorre os produtos de cada venda.
     for (const produto of venda.itens){
-        if(produtos_por_cidade[venda.endereco_entrega.cidade]){
+        //verifica se a cidade da venda ainda não está cadastrada no objeto produtos_por_cidade
+        if(!produtos_por_cidade[venda.endereco_entrega.cidade]){
+            //Se a cidade não existir, entra no bloco e cria a estrutura dela
             produtos_por_cidade[venda.endereco_entrega.cidade] = {
                 [produto.id_produto]:{
                     qtd:0,
@@ -323,7 +325,36 @@ listaVendas.forEach(venda=>{
             }
         }
 
+        const mapaCidade = produtos_por_cidade[venda.endereco_entrega.cidade] as IProduto_por_cidade
+
+        // A variável mapaCidade passa a acessar o objeto de produtos da cidade atual
+        if(!mapaCidade[produto.id_produto]){
         
+            mapaCidade[produto.id_produto] = {
+                qtd:0,
+                valor_total:0   
+            }
+        }
+
+
+        mapaCidade[produto.id_produto]!.qtd = (mapaCidade[produto.id_produto]?.qtd||0)+produto.quantidade;
+
+        const totalDesseProduto = mapaCidade[produto.id_produto]?.valor_total||0
+        
+        const atualCampeao = cidade_resumida.find(cidade => cidade.nome_cidade === venda.endereco_entrega.cidade)
+
+        if (!atualCampeao || (totalDesseProduto && totalDesseProduto > atualCampeao.produto_mais_vendido.qtd_total_vendida)) {
+            cidade_resumida.push({
+                nome_cidade: venda.endereco_entrega.cidade,
+                produto_mais_vendido:{
+                    nome_produto:produto.nome,
+                    qtd_total_vendida:produto.quantidade,
+                    valor_total_gerado:produto.quantidade* produto.preco_unitario
+                },
+            })
+        }
 
     }
 })
+
+console.log(cidade_resumida)
