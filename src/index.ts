@@ -184,102 +184,102 @@ listaVendas.forEach(venda=>venda.itens.forEach(item=>{
 console.log(categoriaSemDuplicatas)
 console.log(resumoPorCategorias.sort((a,b)=>a.valor_total_vendido>b.valor_total_vendido ?-1:1).map(categoria=>({...categoria,valor_total_vendido_real:categoria.valor_total_vendido.toLocaleString("pt-BR",{currency:"BRL",style:"currency"})})))
 
-console.log("Nível 3: Desafio 2")
-//resumo_por_cidade
+// console.log("Nível 3: Desafio 2")
+// //resumo_por_cidade
 
-//cria interface
-type IResumoCidade  = {
-    nome_cidade:string
-    produto_mais_vendido:{
-        nome_produto:string
-        valor_total_gerado:number
-        qtd_total_vendida:number
-    }
-}
+// //cria interface
+// type IResumoCidade  = {
+//     nome_cidade:string
+//     produto_mais_vendido:{
+//         nome_produto:string
+//         valor_total_gerado:number
+//         qtd_total_vendida:number
+//     }
+// }
 
-//coloca interface na constante como array
-const resumoPorCidade = [] as IResumoCidade[]
+// //coloca interface na constante como array
+// const resumoPorCidade = [] as IResumoCidade[]
 
-//forEach para percorrer a lista de vendas
+// //forEach para percorrer a lista de vendas
 
-type IProdutoPorCidade = Record<number, {qtd:number, vr_total:number}>
+// type IProdutoPorCidade = Record<number, {qtd:number, vr_total:number}>
 
-//Um objeto que usa o nome da cidade como chave e guarda os produtos daquela cidade.
-const produtosVendidosPorCidade:Record<string, IProdutoPorCidade> ={} 
-listaVendas.forEach(venda=>{
+// //Um objeto que usa o nome da cidade como chave e guarda os produtos daquela cidade.
+// const produtosVendidosPorCidade:Record<string, IProdutoPorCidade> ={} 
+// listaVendas.forEach(venda=>{
 
-    //retira os cancelados
-    if(venda.status === "CANCELADO"){
-        return
-    }
+//     //retira os cancelados
+//     if(venda.status === "CANCELADO"){
+//         return
+//     }
 
-    for (const produto of venda.itens) {
-        // { "Itabuna":{ 203:{ qtd: 12, vr_total: 203 } }}
-        if (!produtosVendidosPorCidade[venda.endereco_entrega.cidade]) {
-            produtosVendidosPorCidade[venda.endereco_entrega.cidade] = {
-                [produto.id_produto]: {
-                    qtd: 0,
-                    vr_total: 0
-                }
-            }
-        }
+//     for (const produto of venda.itens) {
+//         // { "Itabuna":{ 203:{ qtd: 12, vr_total: 203 } }}
+//         if (!produtosVendidosPorCidade[venda.endereco_entrega.cidade]) {
+//             produtosVendidosPorCidade[venda.endereco_entrega.cidade] = {
+//                 [produto.id_produto]: {
+//                     qtd: 0,
+//                     vr_total: 0
+//                 }
+//             }
+//         }
 
-        // 2. Atualiza a quantidade acumulada do produto na respectiva cidade
-        const mapaCidade = produtosVendidosPorCidade[venda.endereco_entrega.cidade] as IProdutoPorCidade
+//         // 2. Atualiza a quantidade acumulada do produto na respectiva cidade
+//         const mapaCidade = produtosVendidosPorCidade[venda.endereco_entrega.cidade] as IProdutoPorCidade
 
-        if(!mapaCidade[produto.id_produto]){
-            mapaCidade[produto.id_produto] = {
-                qtd:0,
-                vr_total:0
-            }
-        }
+//         if(!mapaCidade[produto.id_produto]){
+//             mapaCidade[produto.id_produto] = {
+//                 qtd:0,
+//                 vr_total:0
+//             }
+//         }
         
-        mapaCidade[produto.id_produto]!.qtd = (mapaCidade[produto.id_produto]?.qtd || 0) + produto.quantidade;
+//         mapaCidade[produto.id_produto]!.qtd = (mapaCidade[produto.id_produto]?.qtd || 0) + produto.quantidade;
 
-        const totalDesseProduto = mapaCidade[produto.id_produto]?.vr_total || 0
+//         const totalDesseProduto = mapaCidade[produto.id_produto]?.vr_total || 0
 
-        // 3. Compara dinamicamente se este produto se tornou o mais vendido daquela cidade
-        const atualCampeao = resumoPorCidade.find(cidade => cidade.nome_cidade === venda.endereco_entrega.cidade)
+//         // 3. Compara dinamicamente se este produto se tornou o mais vendido daquela cidade
+//         const atualCampeao = resumoPorCidade.find(cidade => cidade.nome_cidade === venda.endereco_entrega.cidade)
 
-        //O !atualCampeao permite tratar o primeiro produto da cidade sem tentar compará-lo com um campeão que ainda não existe.
+//         //O !atualCampeao permite tratar o primeiro produto da cidade sem tentar compará-lo com um campeão que ainda não existe.
      
-        if (!atualCampeao || (totalDesseProduto && totalDesseProduto > atualCampeao.produto_mais_vendido.qtd_total_vendida)) {
-            resumoPorCidade.push({
-                nome_cidade: venda.endereco_entrega.cidade,
-                produto_mais_vendido:{
-                    nome_produto:produto.nome,
-                    qtd_total_vendida:produto.quantidade,
-                    valor_total_gerado:produto.quantidade* produto.preco_unitario
-                },
-            })
-        }
-    }
+//         if (!atualCampeao || (totalDesseProduto && totalDesseProduto > atualCampeao.produto_mais_vendido.qtd_total_vendida)) {
+//             resumoPorCidade.push({
+//                 nome_cidade: venda.endereco_entrega.cidade,
+//                 produto_mais_vendido:{
+//                     nome_produto:produto.nome,
+//                     qtd_total_vendida:produto.quantidade,
+//                     valor_total_gerado:produto.quantidade* produto.preco_unitario
+//                 },
+//             })
+//         }
+//     }
 
 
-    //atualiza nosso array de objetos
-    // if(cidadeEncontrada){
-    //     cidadeEncontrada.valor_total_vendido += venda.valor_total
-    //     cidadeEncontrada.qtd_total_itens += venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0)
-     //joga os objetos para o nosso array   
-    // }else{
-        // percorrer os produtos das vendas e somar a qtd_total e valor total vendido 
-        // resumoPorCidade.push({
-        //     nome_cidade: venda.endereco_entrega.cidade,
-        //     valor_total_vendido:venda.valor_total,
-        //     qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
-        //     produto_mais_vendido:{
-        //         // nome_produto:venda.itens.map(item=>item.nome),
-        //         nome_produto:"",
-        //         valor_total_gerado:0,
-        //         qtd_total_vendida:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
+//     //atualiza nosso array de objetos
+//     // if(cidadeEncontrada){
+//     //     cidadeEncontrada.valor_total_vendido += venda.valor_total
+//     //     cidadeEncontrada.qtd_total_itens += venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0)
+//      //joga os objetos para o nosso array   
+//     // }else{
+//         // percorrer os produtos das vendas e somar a qtd_total e valor total vendido 
+//         // resumoPorCidade.push({
+//         //     nome_cidade: venda.endereco_entrega.cidade,
+//         //     valor_total_vendido:venda.valor_total,
+//         //     qtd_total_itens:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
+//         //     produto_mais_vendido:{
+//         //         // nome_produto:venda.itens.map(item=>item.nome),
+//         //         nome_produto:"",
+//         //         valor_total_gerado:0,
+//         //         qtd_total_vendida:venda.itens.reduce((quantidade,item)=>quantidade+item.quantidade,0),
                 
-        //     }
-        // })
-    // }
+//         //     }
+//         // })
+//     // }
     
-})
+// })
 
-console.log(resumoPorCidade)
+// console.log(resumoPorCidade)
 
 console.log()
 console.log("Nível 3:Desafio 2 - Entendendo")
@@ -358,3 +358,14 @@ listaVendas.forEach(venda=>{
 })
 
 console.log(cidade_resumida)
+
+
+//ranking_clientes
+console.log("Nível 3 : Desafio 3")
+
+// //3. Criar uma lista de objetos chamada `ranking_clientes` com as informações pessoais de cada cliente e um campo extra de resumo contendo:
+
+// - `qtd_compras_validas` (Quantos pedidos válidos ele fez)
+// - `total_comprado` (Soma em dinheiro de tudo que ele comprou)
+// - _Regra extra:_ Esta lista **deve estar ordenada** pelo `total_comprado`, mostrando primeiro o cliente que mais gastou e por último o que menos gastou.
+
