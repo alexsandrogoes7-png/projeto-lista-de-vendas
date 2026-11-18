@@ -369,3 +369,16 @@ console.log("Nível 3 : Desafio 3")
 // - `total_comprado` (Soma em dinheiro de tudo que ele comprou)
 // - _Regra extra:_ Esta lista **deve estar ordenada** pelo `total_comprado`, mostrando primeiro o cliente que mais gastou e por último o que menos gastou.
 
+const idsClientes =  listaVendas.map(venda=>venda.cliente.id_cliente)
+
+//... transformam os elementos do Set em um array.
+const idsUnicos =  [...new Set(idsClientes)]
+
+
+const clientesUnicos = idsUnicos.map(id=>{
+    const clienteEncontrado =  listaVendas.find(venda=>venda.cliente.id_cliente === id)
+
+    return clienteEncontrado?.cliente
+})
+
+console.log(clientesUnicos)
