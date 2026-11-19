@@ -381,4 +381,10 @@ const clientesUnicos = idsUnicos.map(id=>{
     return clienteEncontrado?.cliente
 })
 
+const comprasPorClente = clientesUnicos.map(idClientes=>{
+    const comprasValidas = listaVendas.filter(
+        venda=>venda.cliente.id_cliente === idClientes && venda.status !== "CANCELADO"
+    )
+})
+
 console.log(clientesUnicos)
