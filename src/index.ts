@@ -336,9 +336,10 @@ listaVendas.forEach(venda=>{
             }
         }
 
-
+        //optional chaining (?)
         mapaCidade[produto.id_produto]!.qtd = (mapaCidade[produto.id_produto]?.qtd||0)+produto.quantidade;
 
+        ////optional chaining (?)
         const totalDesseProduto = mapaCidade[produto.id_produto]?.valor_total||0
         
         const atualCampeao = cidade_resumida.find(cidade => cidade.nome_cidade === venda.endereco_entrega.cidade)
@@ -369,6 +370,15 @@ console.log("Nível 3 : Desafio 3")
 // - `total_comprado` (Soma em dinheiro de tudo que ele comprou)
 // - _Regra extra:_ Esta lista **deve estar ordenada** pelo `total_comprado`, mostrando primeiro o cliente que mais gastou e por último o que menos gastou.
 
+type IRankingCliente = {
+    id_cliente: number;
+    nome: string;
+    email: string;
+    telefone: string;
+    qtd_compras_validas: number;
+    total_comprado: number;
+}
+
 const idsClientes =  listaVendas.map(venda=>venda.cliente.id_cliente)
 
 //... transformam os elementos do Set em um array.
@@ -377,14 +387,31 @@ const idsUnicos =  [...new Set(idsClientes)]
 
 const clientesUnicos = idsUnicos.map(id=>{
     const clienteEncontrado =  listaVendas.find(venda=>venda.cliente.id_cliente === id)
-
+    //optional chaining (?) permite acessar uma propriedade de um objeto sem provocar um erro caso esse objeto seja null ou undefined
     return clienteEncontrado?.cliente
 })
 
-const comprasPorClente = clientesUnicos.map(idClientes=>{
+const comprasPorCliente = clientesUnicos.map(idClientes=>{
     const comprasValidas = listaVendas.filter(
-        venda=>venda.cliente.id_cliente === idClientes && venda.status !== "CANCELADO"
+        //optional chaining
+        venda=>venda.cliente.id_cliente === idClientes?.id_cliente && venda.status !== "CANCELADO"
     )
+
+    const totalComprado = comprasValidas.reduce((total,venda)=>{
+        return total+venda.valor_total
+    },0)
+
+    //sort() organiza os elementos de um array.
+    return {
+        id_cliente:idClientes?.id_cliente,
+        nome:idClientes?.nome,
+        email:idClientes?.email,
+        telefone:idClientes?.telefone,
+        qtd_compras_validas:comprasValidas.length,
+        total_comprado:totalComprado
+    }
 })
 
-console.log(clientesUnicos)
+
+
+console.log(comprasPorCliente.sort((a,b)=>b.total_comprado-a.total_comprado))
